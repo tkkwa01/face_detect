@@ -71,7 +71,7 @@ func main() {
 	defer referenceImg.Close()
 
 	fmt.Println("Creating ORB detector...")
-	orb := gocv.NewORB()
+	orb := gocv.NewORBWithParams(500, 1.2, 8, 31, 0, 2, 0, 31, 20)
 	defer orb.Close()
 
 	fmt.Println("Detecting keypoints in reference face...")
@@ -108,12 +108,12 @@ func main() {
 
 			goodMatches := 0
 			for _, m := range matches {
-				if len(m) == 2 && m[0].Distance < 0.75*m[1].Distance {
+				if len(m) == 2 && m[0].Distance < 0.7*m[1].Distance {
 					goodMatches++
 				}
 			}
 
-			if goodMatches > 10 {
+			if goodMatches > 15 {
 				gocv.Rectangle(&img, r, color.RGBA{0, 255, 0, 0}, 3)
 				fmt.Println("Face matched!")
 			} else {
